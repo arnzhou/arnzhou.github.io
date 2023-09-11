@@ -2,19 +2,51 @@
 <html>
   <head>
     <title>My website</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script>
+      const apiBase = "https://api.wynncraft.com/v2/";
+      function fetchPlayerData(query) {
+        const req = apiBase+`player/${query}/stats`;
+        fetch(req)
+          .then(response => {
+            if(!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            displayPlayerData(data);
+          })
+          .catch(error => {
+            console.error('Fetch error:', error);
+          })
+      }
+
+      function displayPlayerData(data) {
+        const playerInfo = document.getElementById('player-info');
+        playerInfo.innerHTML  = `<p>Player Name: ${data.data[0].username}</p>`;
+      }
+    </script>
   </head>
   <body>
     <div class="container">
       <div class="blurb">
         <h1>Hi there, I'm Arnold!</h1>
         <p>Who am I?</p>
+        <ul>
+          <li><a href="wynn_items.html">Wynncraft item search</a></li>
+          <li><a href="wynn_players.html">Wynncraft item search</a></li>
+        </ul>
       </div>
     </div>
+
     <footer>
+      
       <ul>
         <li><a href="mailto:arnoldzhou03@gmail.com">Email me</a></li>
         <li><a href="https://github.com/arnzhou">My github</a></li>
       </ul>
     </footer>
+    <div id="player-info"></div>
   </body>
 </html>
